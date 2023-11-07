@@ -1,13 +1,11 @@
 package com.sky.quizexAQuizApp.controller;
 
 
-import com.sky.quizexAQuizApp.Question;
+import com.sky.quizexAQuizApp.model.Question;
 import com.sky.quizexAQuizApp.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,11 +17,21 @@ public class QuestionController {
     QuestionService questionService;
 
     @GetMapping("allQuestions")
-    public List<Question> getAllQuestions(){
+    public ResponseEntity<List<Question>> getAllQuestions(){
         return questionService.getAllQuestions();
     }
     @GetMapping("category/{category}")
-    public List<Question> getQuestionByCategory(@PathVariable String category){
+    public ResponseEntity<List<Question>> getQuestionByCategory(@PathVariable String category){
         return questionService.getQuestionByCategory(category);
+    }
+
+    @PostMapping("add")
+    public ResponseEntity<String> addQuestion(@RequestBody Question question){
+        return questionService.addQuestion(question);
+    }
+
+    @DeleteMapping("delete")
+    public ResponseEntity<String> deleteQuestion(@RequestBody Question question){
+        return questionService.deleteQuestion(question);
     }
 }
